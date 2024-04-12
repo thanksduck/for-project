@@ -2,10 +2,11 @@
 name = "AI-Traffic-System"
 version = "0.1.0"
 description = ""
-authors = ["Shivam Shukla<shivam.cse@icloud.com>"]
+authors = ["Ammaro173 <ammaraf97@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
+joblib = "^1.1.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
