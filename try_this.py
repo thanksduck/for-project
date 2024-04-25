@@ -17,31 +17,6 @@ import joblib
 
 mj = joblib.load("./ai_traffic_system/model_joblib")  # mj => model joblib
 
-
-# def ml_model_timer(on_off, flow1, flow2, flow3, flow4):
-#     if prediction_model_mode:
-#         T1_data = np.array(0.44).reshape(-1, 1)
-#         T1_predict = np.ceil(mj.predict(T1_data))
-#         if T1_predict < 5:
-#             T1_predict = 5
-#         elif T1_predict > 67:
-#             T1_predict = 67
-#         print(type(T1_predict))
-#         print(T1_predict)
-#         return []
-#     else:
-#         return "MODE IS OFF"
-
-# L1_percentil = np.array(0.1).reshape(-1, 1)
-# T1_predict = np.ceil(mj.predict(L1_percentil))
-# if T1_predict < 5:
-#     T1_predict = 5
-# elif T1_predict > 67:
-#     T1_predict = 67
-# print(type(T1_predict))
-# print(T1_predict)
-
-
 def rl_ml_model_timer(flow):
     flow_percentile = np.array(flow).reshape(-1, 1)
     green_time_predict = np.ceil(mj.predict(flow_percentile))
@@ -51,7 +26,6 @@ def rl_ml_model_timer(flow):
 def ml_model_timer(flow):
     flow_percentile = np.array(flow).reshape(-1, 1)
     green_time_predict = np.ceil(mj.predict(flow_percentile))
-    # print("i predicted : ", green_time_predict)
     if green_time_predict < 3:
         green_time_predict = 2
     elif green_time_predict > 7:
@@ -59,36 +33,31 @@ def ml_model_timer(flow):
     return green_time_predict
 
 
-# Default values of signal timers
 defaultGreen = {0: 20, 1: 20, 2: 20, 3: 20}
 defaultRed = 120
 defaultYellow = 2
 
 signals = []
 noOfSignals = 4
-currentGreen = 0  # Indicates which signal is green currently
-
+currentGreen = 0  
 nextGreen = (
     currentGreen + 1
-) % noOfSignals  # Indicates which signal will turn green next
+) % noOfSignals 
 
-currentYellow = 0  # Indicates whether yellow signal is on or off initial condition
+currentYellow = 0  
 
-speeds = {"car": 1.62}  # average speeds of vehicles 3.24
-# speeds = {'car':2.25, 'bus':1.8, 'truck':1.8, 'bike':2.5}
+speeds = {"car": 1.62}  
 
-
-# Coordinates of vehicles' start
 x = {
     "right": [0, 0, 0],
-    "down": [542, 563, 637],
+    "up": [542, 563, 637],
     "left": [1400, 1400, 1400],
-    "up": [680, 723, 819],
+    "down": [680, 723, 819],
 }
 y = {
-    "right": [380, 410, 465],
+    "left": [380, 410, 465],
     "down": [0, 0, 0],
-    "left": [258, 315, 365],
+    "right": [258, 315, 365],
     "up": [800, 800, 800],
 }
 
@@ -139,10 +108,10 @@ rotationAngle = 3  # rotate & drifting facrtor; 2 or 3 is best
 
 
 mid = {
-    "right": {"x": 560, "y": 465},
-    "down": {"x": 560, "y": 310},
-    "left": {"x": 860, "y": 310},
-    "up": {"x": 815, "y": 495},
+    "left": {"x": 680, "y": 465},
+    "up": {"x": 560, "y": 390},
+    "right": {"x": 720, "y": 310},
+    "down": {"x": 815, "y": 410},
 }
 # set random or default green signal time here
 randomGreenSignalTimer = False
@@ -259,7 +228,7 @@ class Vehicle(pygame.sprite.Sprite):
                     if (
                         self.crossed == 0
                         or self.x + self.image.get_rect().width
-                        < stopLines[self.direction] + 365
+                        < stopLines[self.direction] + 100
                     ):
                         if (
                             self.x + self.image.get_rect().width <= self.stop
@@ -398,7 +367,7 @@ class Vehicle(pygame.sprite.Sprite):
                     if (
                         self.crossed == 0
                         or self.y + self.image.get_rect().height
-                        < stopLines[self.direction] + 210
+                        < stopLines[self.direction] +75
                     ):
                         if (
                             self.y + self.image.get_rect().height <= self.stop
@@ -531,7 +500,7 @@ class Vehicle(pygame.sprite.Sprite):
                     )
             if self.willTurn == 1:
                 if self.lane == 2:
-                    if self.crossed == 0 or self.x > stopLines[self.direction] - 440:
+                    if self.crossed == 0 or self.x > stopLines[self.direction] - 140:
                         if (
                             self.x >= self.stop
                             or (currentGreen == 2 and currentYellow == 0)
@@ -673,7 +642,7 @@ class Vehicle(pygame.sprite.Sprite):
                     )
             if self.willTurn == 1:
                 if self.lane == 1:
-                    if self.crossed == 0 or self.y > stopLines[self.direction] - 200:
+                    if self.crossed == 0 or self.y > stopLines[self.direction] - 55:
                         if (
                             self.y >= self.stop
                             or (currentGreen == 3 and currentYellow == 0)
@@ -1194,4 +1163,6 @@ class Main:
 
 if __name__ == "__main__":
     Main()
+
+
 
