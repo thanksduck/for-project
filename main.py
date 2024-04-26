@@ -16,32 +16,6 @@ import joblib
 # from joblib import parallel_backend
 
 mj = joblib.load("./ai_traffic_system/model_joblib")  # mj => model joblib
-
-
-# def ml_model_timer(on_off, flow1, flow2, flow3, flow4):
-#     if prediction_model_mode:
-#         T1_data = np.array(0.44).reshape(-1, 1)
-#         T1_predict = np.ceil(mj.predict(T1_data))
-#         if T1_predict < 5:
-#             T1_predict = 5
-#         elif T1_predict > 67:
-#             T1_predict = 67
-#         print(type(T1_predict))
-#         print(T1_predict)
-#         return []
-#     else:
-#         return "MODE IS OFF"
-
-# L1_percentil = np.array(0.1).reshape(-1, 1)
-# T1_predict = np.ceil(mj.predict(L1_percentil))
-# if T1_predict < 5:
-#     T1_predict = 5
-# elif T1_predict > 67:
-#     T1_predict = 67
-# print(type(T1_predict))
-# print(T1_predict)
-
-
 def rl_ml_model_timer(flow):
     flow_percentile = np.array(flow).reshape(-1, 1)
     green_time_predict = np.ceil(mj.predict(flow_percentile))

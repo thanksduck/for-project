@@ -1057,7 +1057,8 @@ class Main:
     screenSize = (screenWidth, screenHeight)
 
     # Setting background image i.e. image of intersection
-    background = pygame.image.load("ai_traffic_system/images/intersection4.png")
+    background = pygame.image.load("ai_traffic_system\images\inter1.png")
+    # background = pygame.image.load("ai_traffic_system/images/intersection4.png")
     # background = pygame.transform.scale(background, (1600, 920))
     # background = pygame.transform.scale(background, (1400, 800)) OR Resize with google`s help
     screen = pygame.display.set_mode(screenSize)
