@@ -5,8 +5,6 @@ import pygame
 import sys
 import os
 import numpy as np
-
-
 # set prediction model for green time signal on / off
 prediction_model_mode = True
 
