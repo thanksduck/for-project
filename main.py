@@ -5,17 +5,11 @@ import pygame
 import sys
 import os
 import numpy as np
-
-
 # set prediction model for green time signal on / off
 prediction_model_mode = True
-
-# from sklearn.linear_model import LinearRegression
 import joblib
-
-# from joblib import parallel_backend
-
 mj = joblib.load("./ai_traffic_system/model_joblib")  # mj => model joblib
+
 def rl_ml_model_timer(flow):
     flow_percentile = np.array(flow).reshape(-1, 1)
     green_time_predict = np.ceil(mj.predict(flow_percentile))
@@ -40,8 +34,7 @@ defaultYellow = 2
 
 signals = []
 noOfSignals = 4
-currentGreen = 0  # Indicates which signal is green currently
-
+currentGreen = 0  
 nextGreen = (
     currentGreen + 1
 ) % noOfSignals  # Indicates which signal will turn green next
@@ -55,14 +48,14 @@ speeds = {"car": 1.62}  # average speeds of vehicles 3.24
 # Coordinates of vehicles' start
 x = {
     "right": [0, 0, 0],
-    "down": [542, 563, 637],
+    "up": [542, 563, 637],
     "left": [1400, 1400, 1400],
-    "up": [680, 723, 819],
+    "down": [680, 723, 819],
 }
 y = {
-    "right": [380, 410, 465],
+    "left": [380, 410, 465],
     "down": [0, 0, 0],
-    "left": [258, 315, 365],
+    "right": [258, 315, 365],
     "up": [800, 800, 800],
 }
 
@@ -113,10 +106,10 @@ rotationAngle = 3  # rotate & drifting facrtor; 2 or 3 is best
 
 
 mid = {
-    "right": {"x": 560, "y": 465},
-    "down": {"x": 560, "y": 310},
-    "left": {"x": 860, "y": 310},
-    "up": {"x": 815, "y": 495},
+    "left": {"x": 680, "y": 465},
+    "up": {"x": 560, "y": 390},
+    "right": {"x": 720, "y": 310},
+    "down": {"x": 815, "y": 410},
 }
 # set random or default green signal time here
 randomGreenSignalTimer = False
@@ -233,7 +226,7 @@ class Vehicle(pygame.sprite.Sprite):
                     if (
                         self.crossed == 0
                         or self.x + self.image.get_rect().width
-                        < stopLines[self.direction] + 365
+                        < stopLines[self.direction] + 100
                     ):
                         if (
                             self.x + self.image.get_rect().width <= self.stop
@@ -372,7 +365,7 @@ class Vehicle(pygame.sprite.Sprite):
                     if (
                         self.crossed == 0
                         or self.y + self.image.get_rect().height
-                        < stopLines[self.direction] + 210
+                        < stopLines[self.direction] +75
                     ):
                         if (
                             self.y + self.image.get_rect().height <= self.stop
@@ -505,7 +498,7 @@ class Vehicle(pygame.sprite.Sprite):
                     )
             if self.willTurn == 1:
                 if self.lane == 2:
-                    if self.crossed == 0 or self.x > stopLines[self.direction] - 440:
+                    if self.crossed == 0 or self.x > stopLines[self.direction] - 140:
                         if (
                             self.x >= self.stop
                             or (currentGreen == 2 and currentYellow == 0)
@@ -647,7 +640,7 @@ class Vehicle(pygame.sprite.Sprite):
                     )
             if self.willTurn == 1:
                 if self.lane == 1:
-                    if self.crossed == 0 or self.y > stopLines[self.direction] - 200:
+                    if self.crossed == 0 or self.y > stopLines[self.direction] - 55:
                         if (
                             self.y >= self.stop
                             or (currentGreen == 3 and currentYellow == 0)
@@ -983,7 +976,7 @@ def generateVehicles():
 
         direction_number = 0
         # dist = [25, 50, 75, 101]
-        dist = [5, 11, 56, 101]
+        dist = [2, 5, 56, 101]
         if temp < dist[0]:
             direction_number = 1  # north to south (Down)
             count_Leg2 += 1
@@ -1062,7 +1055,8 @@ class Main:
     screenSize = (screenWidth, screenHeight)
 
     # Setting background image i.e. image of intersection
-    background = pygame.image.load("ai_traffic_system/images/intersection4.png")
+    background = pygame.image.load("ai_traffic_system\images\inter1.png")
+    # background = pygame.image.load("ai_traffic_system/images/intersection4.png")
     # background = pygame.transform.scale(background, (1600, 920))
     # background = pygame.transform.scale(background, (1400, 800)) OR Resize with google`s help
     screen = pygame.display.set_mode(screenSize)
