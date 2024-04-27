@@ -14,7 +14,7 @@ The Dynamic Traffic Light Control System (DTLCS) aims to revolutionize traffic m
 
 ## Project Guide
 
-This project is supervised by Professor Kuljit Kaur, who provides valuable guidance and expertise throughout its development.
+This project is supervised by Professor Kuljit Kaur, who has been providin with us valuable guidance and expertise throughout its development.
 
 ## Architecture
 
