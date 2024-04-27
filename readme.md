@@ -6,9 +6,9 @@ The Dynamic Traffic Light Control System aims to revolutionize traffic managemen
 
 ## Project Members
 
-1. [Gursimar](https://github.com/gursimarsethi)
-2. Rohini
-3. [Shivam Shukla](https://github.com/sivm99)
+1. [Gursimar](https://github.com/gursimarsethi) , URN - 2104223
+2. Rohini , URN - 2104228
+3. [Shivam Shukla](https://github.com/sivm99) , URN - 2004663
 
 ## Project Guide
 
@@ -58,6 +58,3 @@ The Dynamic Traffic Light Control System is developed using Python 3.9.5 and fol
 
 Contributions to this project are welcome. Feel free to submit bug reports, feature requests, or pull requests to help improve the system.
 
-## License
-
-[Add license information here]
