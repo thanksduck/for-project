@@ -1,56 +1,63 @@
-# Dynamic Traffic LIght Control System
+# Dynamic Traffic Light Control System
 
-**Members Working on this project
+## Project Overview
 
-1. _[Gursimar](https://github.com/gursimarsethi)_
-2. _Rohini_
-3. _[Shivam Shukla](https://github.com/sivm99)_
+The Dynamic Traffic Light Control System aims to revolutionize traffic management by implementing an AI-driven approach to optimize traffic light timings dynamically based on real-time traffic conditions. Traditional fixed-time traffic lights can be inefficient, leading to congestion and wasted time for commuters. By leveraging artificial intelligence, this system adapts traffic light timings in response to current traffic patterns, ultimately improving traffic flow and reducing congestion.
 
----
+## Project Members
 
-**Version**: 0.1.0
+1. [Gursimar](https://github.com/gursimarsethi)
+2. Rohini
+3. [Shivam Shukla](https://github.com/sivm99)
 
----
+## Project Guide
 
-## Overview
+This project is supervised by Professor Kuljit Kaur, who provides valuable guidance and expertise throughout its development.
 
-Designing a dynamic AI Traffic light system (using AI) instead of fixed time for each traffic light
+## Version
 
----
+Current Version: 0.1.0
 
-## installation
+## Installation
 
-step 1 Using SSH:
+Follow these steps to install and run the Dynamic Traffic Light Control System:
 
-    git clone https://github.com/gursimarsethi/Dynamic-Traffic-Lights
-step 2:
+### Step 1: Clone the Repository
 
-    cd AI_Traffic_system
-step 3:
-install the required packages:
+```bash
+git clone https://github.com/gursimarsethi/Dynamic-Traffic-Lights
+```
 
-    pip install -r requirements.txt
+### Step 2: Navigate to the Project Directory
 
-step 4:
+```bash
+cd Dynamic-Traffic-Lights
+```
 
-    python main.py
+### Step 3: Install Required Packages
+
+```bash
+pip install -r requirements.txt
+```
+
+### Step 4: Run the Application
+
+```bash
+python main.py
+```
 
 ## Architecture
 
-This app is written using Python 3.9.5, following best practices.
+The Dynamic Traffic Light Control System is developed using Python 3.9.5 and follows industry best practices for software development.
 
-Libraries used:
+### Libraries Used:
 
----
+- [Add libraries used here]
 
-## Change Log
+## Contributing
 
-version 0.1.0 ; 06-02-2024
+Contributions to this project are welcome. Feel free to submit bug reports, feature requests, or pull requests to help improve the system.
 
----
+## License
 
-## references
-
-```
-
-```
+[Add license information here]
