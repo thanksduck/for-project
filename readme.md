@@ -4,6 +4,7 @@
 
 The Dynamic Traffic Light Control System aims to revolutionize traffic management by implementing an AI-driven approach to optimize traffic light timings dynamically based on real-time traffic conditions. Traditional fixed-time traffic lights can be inefficient, leading to congestion and wasted time for commuters. By leveraging artificial intelligence, this system adapts traffic light timings in response to current traffic patterns, ultimately improving traffic flow and reducing congestion.
 
+![Dynamic Traffic Light Control System Simulation]("https://cdn.jsdelivr.net/gh/thanksduck/for-project@main/ai_traffic_system/images/dtlcs.png")
 ## Project Members
 
 1. [Gursimar](https://github.com/gursimarsethi) , URN - 2104223
