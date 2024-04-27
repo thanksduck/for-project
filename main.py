@@ -1001,7 +1001,7 @@ class Main:
     screenSize = (screenWidth, screenHeight)
 
     # Setting background image i.e. image of intersection
-    background = pygame.image.load("ai_traffic_system\images\inter1.png")
+    background = pygame.image.load("ai_traffic_system/images/inter1.png")
 
     screen = pygame.display.set_mode(screenSize)
     pygame.display.set_caption("SIMULATION")
