@@ -29,6 +29,3 @@ The Dynamic Traffic Light Control System is developed using Python 3.11 and foll
 - `pygame` - For Simulation
 - `pickle` - For saving and loading models
 
-## Contributing
-
-Contributions to this project are welcome. Feel free to submit bug reports, feature requests, or pull requests to help improve the system.
