@@ -7,7 +7,12 @@ import os
 import numpy as np
 # set prediction model for green time signal on / off
 prediction_model_mode = True
+
+# from sklearn.linear_model import LinearRegression
 import joblib
+
+# from joblib import parallel_backend
+
 mj = joblib.load("./ai_traffic_system/model_joblib")  # mj => model joblib
 
 def rl_ml_model_timer(flow):
@@ -19,7 +24,6 @@ def rl_ml_model_timer(flow):
 def ml_model_timer(flow):
     flow_percentile = np.array(flow).reshape(-1, 1)
     green_time_predict = np.ceil(mj.predict(flow_percentile))
-    # print("i predicted : ", green_time_predict)
     if green_time_predict < 3:
         green_time_predict = 2
     elif green_time_predict > 7:
@@ -27,7 +31,6 @@ def ml_model_timer(flow):
     return green_time_predict
 
 
-# Default values of signal timers
 defaultGreen = {0: 20, 1: 20, 2: 20, 3: 20}
 defaultRed = 120
 defaultYellow = 2
@@ -37,15 +40,12 @@ noOfSignals = 4
 currentGreen = 0  
 nextGreen = (
     currentGreen + 1
-) % noOfSignals  # Indicates which signal will turn green next
+) % noOfSignals 
 
-currentYellow = 0  # Indicates whether yellow signal is on or off initial condition
+currentYellow = 0  
 
-speeds = {"car": 1.62}  # average speeds of vehicles 3.24
-# speeds = {'car':2.25, 'bus':1.8, 'truck':1.8, 'bike':2.5}
+speeds = {"car": 1.62}  
 
-
-# Coordinates of vehicles' start
 x = {
     "right": [0, 0, 0],
     "up": [542, 563, 637],
@@ -65,8 +65,8 @@ vehicles = {
     "left": {0: [], 1: [], 2: [], "crossed": 0},
     "up": {0: [], 1: [], 2: [], "crossed": 0},
 }
-type_vehicle= {0: "car"}
-# type_vehicle= {0:'car', 1:'bus', 2:'truck', 3:'bike'}
+vehicleTypes = {0: "car"}
+# vehicleTypes = {0:'car', 1:'bus', 2:'truck', 3:'bike'}
 
 directionNumbers = {0: "right", 1: "down", 2: "left", 3: "up"}
 
@@ -187,6 +187,7 @@ class Vehicle(pygame.sprite.Sprite):
                 +stoppingGap
         else:
             self.stop = defaultStop[direction]
+        # print(self.stop)
 
         # Set new starting and stopping coordinate
         if direction == "right":
@@ -779,8 +780,33 @@ class Vehicle(pygame.sprite.Sprite):
 
 # Initialization of signals with default values
 def initialize():
-
+    # minTime = randomGreenSignalTimerRange[0]
+    # maxTime = randomGreenSignalTimerRange[1]
+    # if randomGreenSignalTimer:
+    #     ts1 = TrafficSignal(0, defaultYellow, random.randint(minTime, maxTime))
+    #     signals.append(ts1)
+    #     ts2 = TrafficSignal(
+    #         ts1.red + ts1.yellow + ts1.green,
+    #         defaultYellow,
+    #         random.randint(minTime, maxTime),
+    #     )
+    #     signals.append(ts2)
+    #     ts3 = TrafficSignal(defaultRed, defaultYellow, random.randint(minTime, maxTime))
+    #     signals.append(ts3)
+    #     ts4 = TrafficSignal(defaultRed, defaultYellow, random.randint(minTime, maxTime))
+    #     signals.append(ts4)
+    #     minTime = randomGreenSignalTimerRange[0]
+    #     maxTime = randomGreenSignalTimerRange[1]
     if prediction_model_mode:
+
+        # if timeElapsed % 10 == 0:
+        #     k = total_flow_count or 1  # to avoid division by zero error
+        #     L1_percen = count_Leg1 / k
+        #     L2_percen = count_Leg2 / k
+        #     L3_percen = count_Leg3 / k
+        #     L4_percen = count_Leg4 / k
+        #     L1_percentil = np.array(L1_percen).reshape(-1, 1)
+        #     T1_predict = np.ceil(mj.predict(L1_percentil))
         L1_percen = count_Leg1 / total_flow_count
         L2_percen = count_Leg2 / total_flow_count
         L3_percen = count_Leg3 / total_flow_count
@@ -864,8 +890,9 @@ def repeat():
         updateValues()
         time.sleep(
             1
-        )  
-    currentYellow = 1  
+        )  # sleep for 1 seconds following real Time ratios ! , if you give 0.5 sec time ratio will be doubled
+    currentYellow = 1  # set yellow signal on
+    # reset stop coordinates of lanes and vehicles
     for i in range(0, 3):
         for vehicle in vehicles[directionNumbers[currentGreen]][i]:
             vehicle.stop = defaultStop[directionNumbers[currentGreen]]
@@ -876,8 +903,23 @@ def repeat():
         updateValues()
         time.sleep(
             1
-        )  
+        )  # sleep for 1 seconds following real Time ratios ! , if you give 0.5 sec time ratio will be doubled
     currentYellow = 0  # set yellow signal off
+
+    # reset all signal times of current signal to default/random times
+    # if randomGreenSignalTimer:
+    #     signals[currentGreen].green = random.randint(
+    #         randomGreenSignalTimerRange[0], randomGreenSignalTimerRange[1]
+    #     )
+
+    # vehicles[directionNumbers[i]].values) / (total_flow_count
+    # len(vehicles[direction][lane])
+
+    #  (leg_count - vehicles[directionNumbers[currentGreen]]["crossed"])/ (total_flow_count)
+    #         signals[currentGreen].green = ml_model_timer(All_percen[currentGreen])
+    # global All_percen
+    # print("hi  ??", vehicles[directionNumbers[currentGreen]]["crossed"])
+
     if prediction_model_mode:
         signals[0].green = ml_model_timer(count_Leg1 / total_flow_count)
         signals[1].green = ml_model_timer(count_Leg2 / total_flow_count)
@@ -892,7 +934,7 @@ def repeat():
     nextGreen = (currentGreen + 1) % noOfSignals  # set next green signal
     signals[nextGreen].red = (
         signals[currentGreen].yellow + signals[currentGreen].green
-    )  
+    )  # set the red time of next to next signal as (yellow time + green time) of next signal
     repeat()
 
 
@@ -924,11 +966,17 @@ def generateVehicles():
             temp = random.randint(0, 99)
             if temp < 40:
                 will_turn = 1
+
+        # temp1 = random.randint(0,11)
+        # temp2 = random.randint(12,31)
+        # temp3 = random.randint(32, 63)
+        # temp4 = random.randint(64, 105)
+        # temp = random.randint(0, 99)
         temp = random.randint(0, 100)
 
         direction_number = 0
         # dist = [25, 50, 75, 101]
-        dist = [2, 5, 56, 101]
+        dist = [25, 51, 76, 101]
         if temp < dist[0]:
             direction_number = 1  # north to south (Down)
             count_Leg2 += 1
@@ -943,17 +991,23 @@ def generateVehicles():
             count_Leg3 += 1
         Vehicle(
             lane_number,
-            type_vehicle[vehicle_type],
+            vehicleTypes[vehicle_type],
             direction_number,
             directionNumbers[direction_number],
             will_turn,
         )
+        # y5=Vehicle
+        # y4 = []
+        # y4.append(y5)
+        # print(y4)
         time.sleep(
             1.25
         )  # ex : 2863 car per hour / 3600 (which is 60x60) to change it to => 0.795 car / sec
         total_flow_count += 1
         print("Total flow count: ", total_flow_count)
-
+        # All_percen = [L1_percen, L2_percen, L3_percen, L4_percen]
+        # if timeElapsed % 60 == 0:
+        #     print("Total flow count rested")
 
 
 def showStats():
@@ -1002,7 +1056,9 @@ class Main:
 
     # Setting background image i.e. image of intersection
     background = pygame.image.load("ai_traffic_system/images/inter1.png")
-
+    # background = pygame.image.load("ai_traffic_system/images/intersection4.png")
+    # background = pygame.transform.scale(background, (1600, 920))
+    # background = pygame.transform.scale(background, (1400, 800)) OR Resize with google`s help
     screen = pygame.display.set_mode(screenSize)
     pygame.display.set_caption("Dynamic Traffic Light Control System")
 
@@ -1013,10 +1069,17 @@ class Main:
     font = pygame.font.Font(None, 28)
     thread2 = threading.Thread(
         name="generateVehicles1", target=generateVehicles, args=()
-    )  
+    )  # Generating vehicles
+    # thread3 = threading.Thread(
+    #     name="generateVehicles3", target=generateVehicles, args=()
+    # )
+    # thread4 = threading.Thread(
+    #     name="generateVehicles4", target=generateVehicles, args=()
+    # )
     thread2.daemon = True
     thread2.start()
-
+    # thread3.start()
+    # thread4.start()
     thread5 = threading.Thread(name="simTime", target=simTime, args=())
     thread5.daemon = True
     thread5.start()
@@ -1091,5 +1154,13 @@ class Main:
 
         pygame.display.update()
 
+        # updateValues() update Values of TrafficSignal Timers
+        # time.sleep(0.5) # will break the code dont use  it here :D
+        # print(signals[0].green)
+
+
+
 if __name__ == "__main__":
     Main()
+
+
